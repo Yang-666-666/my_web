@@ -1,1 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>问答</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Microsoft YaHei", sans-serif;
+    background: #f4f4f4;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 48px 40px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    text-align: center;
+    width: 380px;
+  }
+  .question { font-size: 18px; margin-bottom: 28px; font-weight: 500; }
+  input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  input[type="text"]:focus { border-color: #aaa; }
+  .btn {
+    display: inline-block;
+    padding: 9px 28px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background .2s;
+    margin-top: 18px;
+  }
+  .btn-primary { background: #555; color: #fff; }
+  .btn-primary:hover { background: #444; }
+  .btn-option { background: #eee; color: #333; margin: 0 8px; }
+  .btn-option:hover { background: #ddd; }
+  .error { color: #e03030; margin-top: 14px; font-size: 14px; min-height: 20px; }
+  .success { font-size: 20px; font-weight: 600; color: #333; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="card">
 
+  <!-- 第一题 -->
+  <div id="q1">
+    <div class="question">你叫什么名字</div>
+    <input type="text" id="nameInput" placeholder="请输入你的名字" autocomplete="off">
+    <br>
+    <button class="btn btn-primary" onclick="checkName()">提交</button>
+    <div id="q1Error" class="error hidden">回答错误，请重新输入</div>
+  </div>
+
+  <!-- 第二题 -->
+  <div id="q2" class="hidden">
+    <div class="question">你是不是一个笨蛋</div>
+    <button class="btn btn-option" onclick="answerYes()">是</button>
+    <button class="btn btn-option" onclick="answerNo()">否</button>
+    <div id="q2Error" class="error hidden">回答错误，重新作答</div>
+  </div>
+
+  <!-- 通关 -->
+  <div id="result" class="hidden">
+    <div class="success">🎉 通关成功！</div>
+  </div>
+
+</div>
+<script>
+function checkName() {
+  var v = document.getElementById('nameInput').value.trim();
+  if (v === '朱世伟') {
+    document.getElementById('q1').classList.add('hidden');
+    document.getElementById('q2').classList.remove('hidden');
+  } else {
+    var err = document.getElementById('q1Error');
+    err.classList.remove('hidden');
+    document.getElementById('nameInput').value = '';
+    setTimeout(function(){ err.classList.add('hidden'); }, 2000);
+  }
+}
+
+document.getElementById('nameInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkName();
+});
+
+function answerYes() {
+  document.getElementById('q2').classList.add('hidden');
+  document.getElementById('result').classList.remove('hidden');
+}
+
+function answerNo() {
+  var err = document.getElementById('q2Error');
+  err.classList.remove('hidden');
+  setTimeout(function(){ err.classList.add('hidden'); }, 2000);
+}
+</script>
+</body>
+</html>
